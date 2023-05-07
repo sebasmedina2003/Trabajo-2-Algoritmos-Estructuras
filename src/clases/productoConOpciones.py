@@ -25,6 +25,3 @@ class ProductoConOpciones(Producto):
                     text += str(valores) + ", "
                 text = text[:len(text)-2]
                 print("- Para la clave {llave} tenemos {valores}".format(llave = keys, valores = text))
-
-a = ProductoConOpciones("ads","sad",1,"sd",5,{"asdf":10,"dfsf":[1,2,3,4,5]})
-a.mostrarOpciones()
