@@ -15,12 +15,13 @@ class ProductoConOpciones(Producto):
         self.opciones = opciones
     
     def mostrarOpciones(self) -> None:
+        print("El objeto " + self.nombre + " tiene las siguientes opciones:")
         for keys in self.opciones:
             if type(self.opciones.get(keys)) in [str,int,float] :
-                print("Para la clave {llave} tenemos {valor}".format(llave=keys, valor=self.opciones.get(keys)))
+                print("- Para la clave {llave} tenemos {valor}".format(llave=keys, valor=self.opciones.get(keys)))
             else:
                 text = ""
                 for valores in self.opciones.get(keys):
-                    text += valores + ", "
+                    text += str(valores) + ", "
                 text = text[:len(text)-2]
-                print("Para la clave {llave} tenemos {valores}".format(llave = keys, valores = text))
+                print("- Para la clave {llave} tenemos {valores}".format(llave = keys, valores = text))
