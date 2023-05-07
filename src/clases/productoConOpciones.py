@@ -1,7 +1,7 @@
 from producto import Producto
 
 
-class ProductoConOpcinoes(Producto):
+class ProductoConOpciones(Producto):
     def __init__(self,
                  nombre: str,
                  descripcion: str,
@@ -16,4 +16,11 @@ class ProductoConOpcinoes(Producto):
     
     def mostrarOpciones(self) -> None:
         for keys in self.opciones:
-            print(f"Para la clave {} tenemos {}".format(keys, self.opciones[keys]))
+            if type(self.opciones.get(keys)) == str:
+                print("Para la clave {llave} tenemos {valor}".format(llave=keys, valor=self.opciones.get(keys)))
+            else:
+                text = ""
+                for valores in self.opciones.get(keys):
+                    text += valores + ", "
+                text = text[:len(text)-2]
+                print("Para la clave {llave} tenemos {valores}".format(llave = keys, valores = text))
