@@ -8,7 +8,7 @@ class ProductoConOpciones(Producto):
                  precio: float,
                  estatus: str,
                  cantidad: int,
-                 opciones: list[dict]
+                 opciones: dict
                  ) -> None:
         super().__init__(nombre, descripcion, precio, estatus, cantidad)
 
@@ -16,7 +16,7 @@ class ProductoConOpciones(Producto):
     
     def mostrarOpciones(self) -> None:
         for keys in self.opciones:
-            if type(self.opciones.get(keys)) == str:
+            if type(self.opciones.get(keys)) in [str,int,float] :
                 print("Para la clave {llave} tenemos {valor}".format(llave=keys, valor=self.opciones.get(keys)))
             else:
                 text = ""
