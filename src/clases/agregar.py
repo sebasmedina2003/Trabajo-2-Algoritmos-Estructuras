@@ -1,11 +1,11 @@
+import clases.controlador as controlador
 from time import sleep
 
-
 def cargaDatos(lista: list[dict]) -> list[dict]:
-    archivo = open("archivos/datos.csv", "r")
-    print(">>> Cargando datos de prueba...")
+    archivo = open("src/archivos/datos.csv", "r")
+    print("\n>>> Cargando datos de prueba...")
     for lineas in archivo:
-        sleep(0.5)
+        sleep(0.2)
         formato = {
             "Nombre": "",
             "Descripcion": "",
@@ -31,6 +31,6 @@ def cargaDatos(lista: list[dict]) -> list[dict]:
         formato["Opciones"] = diccionario
         formato["Fecha Creacion"] = aux[6]
         formato["Fecha Modificacion"] = aux[7].replace("\n", "")
-        lista.append(formato)
+        lista.Append(formato)
     print("\n+-----------------+ Datos almacenados exitosamente +-----------------+\n")
     return lista

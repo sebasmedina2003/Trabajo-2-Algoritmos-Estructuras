@@ -2,27 +2,31 @@ from clases import agregar as agregar
 # Importar clases
 
 
-class Nodo:
-    def __init__(self, value):
-        self.value = value
+class Producto:
+    def __init__(self, valor):
+        self.value = valor
         self.next = None
+    
+class ListaEnlazada(list):
 
-    def __str__(self):
-        return str(self.value)
-
-
-class ListaEnlazada:
     def __init__(self):
         self.first = None
         self.size = 0
-
+        
+    def Append(self, valor):
+        nodo = Producto(valor)
+        if self.size == 0:
+            self.first = nodo
+        else:
+            current = self.first
+            while current.next != None:
+                current = current.next
+            current.next = nodo
+        self.size += 1
 
 class main:
-    productos = []
-
     def __init__(self) -> None:
-        self.productos = agregar.cargaDatos(self.productos)
-        print(self.productos)
+        self.Productos = agregar.cargaDatos(ListaEnlazada)
         self.menu()
 
     def menu(self):  # Metodo para capturar la opcion deseada
@@ -64,4 +68,4 @@ class main:
 
 
 if __name__ == "__main__":
-    principal = main()
+    main()
