@@ -5,8 +5,9 @@ class Producto:
     def __init__(self, value):
         self.value = value
         self.next = None
-class ListaEnlazada(list):
 
+
+class ListaEnlazada():
     def __init__(self):
         self.first = None
         self.size = 0
@@ -41,10 +42,9 @@ class ListaEnlazada(list):
             }
             aux = lineas.split(",")
             listaAux = aux[5].split("/")
-            listaOpciones = listaAux[0]
-            textoValores = listaAux[1]
-            listaValores = textoValores.split("-")
-            diccionario = {listaOpciones: listaValores}
+            longitud = listaAux[0]
+            color = listaAux[1]
+            diccionario = {"Longitud": longitud.split("-"), "Color":color.split("-")}
             print("-> Agregando " + aux[0]+"...")
             formato["Nombre"] = aux[0]
             formato["Descripcion"] = aux[1]
@@ -57,3 +57,6 @@ class ListaEnlazada(list):
             lista.Append(formato)
         print("\n+-----------------+ Datos almacenados exitosamente +-----------------+\n")
         return lista
+    
+    def getFirst(self):
+        return self.first
