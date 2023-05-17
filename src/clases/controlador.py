@@ -47,20 +47,21 @@ class Disponible:
             Current.next = Nodo
         self.size += 1
 
+    def encontrar_nodo(self, i):
+        current_node = self.first
+        for k in range(i):
+            current_node = current_node.next
+        return current_node
+
     def Remove(self, i = None):
-        if i == None:
-            i = self.size - 1
-        elif i==0:
+        if i == 0:
             value = self.first.value
             self.first = self.first.next
         else:
-            nodo_anterior = self.first
-            nodo_actual = nodo_anterior.next
-            for k in range(1, i):
-                nodo_anterior = nodo_actual
-                nodo_actual = nodo_anterior.next
-            value = nodo_actual.value
-            nodo_anterior.next = nodo_actual.next
+            node_before = self.encontrar_nodo(i-1)
+            node_to_remove = node_before.next
+            value = node_to_remove.value
+            node_before.next = node_to_remove.next
             self.size = self.size - 1
         return value
 
@@ -82,18 +83,21 @@ class CarritoCompras:
         self.size += 1
         return MyNode
 
+    def encontrar_nodo(self, i):
+        current_node = self.first
+        for k in range(i):
+            current_node = current_node.next
+        return current_node
+
     def Remove(self, i = None):
         if i == 0:
-            self.first = self.first.next
-            value = self.first.value
+            value = Carrito.first.value
+            Carrito.first = Carrito.first.next
         else:
-            nodo_anterior = self.first
-            nodo_actual = nodo_anterior.next
-            for k in range(1, i):
-                nodo_anterior = nodo_actual
-                nodo_actual = nodo_anterior.next
-            value = nodo_actual.value
-            nodo_anterior.next = nodo_actual.next
+            node_before = self.encontrar_nodo(i-1)
+            node_to_remove = node_before.next
+            value = node_to_remove.value
+            node_before.next = node_to_remove.next
             self.size = self.size - 1
         return value
 
@@ -154,7 +158,7 @@ def mostrarProductos(self):
     i = 0
     while Current != None:
         if Current.value == "Comprar Todo":
-            time.sleep(0.5)
+            sleep(0.5)
             print("| {:0} |{:<110}|".format(i, "Comprar Todo"))
         else:
             sleep(0.5)
