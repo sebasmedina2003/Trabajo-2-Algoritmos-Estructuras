@@ -1,30 +1,25 @@
+from random import randint
+import clases.controlador as controlador
 """ Orden de compra """
-
-def menu_ordenCompra(productos):
-        while True: 
-            print("\n+----- ORDEN DE COMPRA -----+")
-            print("| 1. Generar orden de compra  |")
-            print("| 2. Salir                    |")
-            print("+-----------------------------+")
-            opcion = 0
-            while opcion not in range(1, 3):
-                try:
-                    opcion = int(input(">>> Ingrese la opcion deseada: "))
-                except:
-                    print("-> Ingrese datos validos...")
-            # Condicional opcion elegida
-            if opcion == 1:
-                pass
-            else:
-                break
-
-class Orden: 
-    def __init__(self, productos):
-        self.cola = Cola
-        self.productos = productos
-
-    def generar_factura(self):
-        print()
+def menu_ordenCompra(carrito, orden):
+    while True: 
+        aux = False
+        print("\n+----- ORDEN DE COMPRA -----+")
+        print("| 1. Generar orden de compra  |")
+        print("| 2. Salir                    |")
+        print("+-----------------------------+")
+        opcion = 0
+        while opcion not in range(1, 3):
+            try:
+                opcion = int(input(">>> Ingrese la opcion deseada: "))
+            except:
+                print("-> Ingrese datos validos...")
+        # Condicional opcion elegida
+        if opcion == 1:
+            orden.generar_orden(carrito)
+            aux = True
+        else:
+            return aux;
 
 """ Producto -> Nodos"""
 class Producto:
@@ -78,3 +73,18 @@ class Cola:
         if nodo is not None:
             print(nodo.valor.nombre)
             self._recorrer_aux(nodo.siguiente)
+
+class Orden(Cola): 
+    def __init__(self):
+        super().__init__()
+        self.numeroFactura = 0
+
+    def generar_orden(self, carrito):
+        numero = randint(10000, 50000)
+        total = controlador.Disponible.auxiliar(carrito)
+        return [numero, total, carrito]
+
+        
+
+
+        

@@ -38,11 +38,13 @@ class ListaEnlazada:
         current = self.first
         if self.band == False:
             while current != None:
-                if current.value["Status"] == "Activo" and current.value["Cantidad"] > 0:
+                if current.value["Status"] == "activo" and current.value["Cantidad"] > 0:
                     controlador.Stock.Append(current.value)
                     self.band = True    
                 current = current.next
         controlador.mostrarProductos(controlador.Stock)
+
+      
 
     def __str__(self):
         string = "["
@@ -55,15 +57,14 @@ class ListaEnlazada:
             Current = Current.next
         string += "]"
         return string
-    
+
     # Cargar datos del CSV
     def cargaDatos(self):
-        lista = ListaEnlazada()
-        archivo = open("src/archivos/datos.csv", "r", "utf-8")
+        archivo = open(file = "src/archivos/datos.csv", mode = "r", encoding="UTF-8")
         print("\n>>> Cargando productos al sistema...")
         for lineas in archivo:
             sleep(0.2)
-            formato = {
+            self.formato = {
                 "Nombre": "",
                 "Descripcion": "",
                 "Precio": 0,
@@ -81,18 +82,17 @@ class ListaEnlazada:
             longitudes = opciones[0].split("-")
             colores = opciones[1].split("-")
             print("-> Agregando " + aux[0]+"...")
-            formato["Nombre"] = aux[0]
-            formato["Descripcion"] = aux[1]
-            formato["Precio"] = float(aux[2])
-            formato["Status"] = aux[3]
-            formato["Cantidad"] = int(aux[4])
-            formato["Opciones"]["Tamaños"] = longitudes
-            formato["Opciones"]["Colores"] = colores
-            formato["Fecha Creacion"] = aux[6]
-            formato["Fecha Modificacion"] = aux[7].replace("\n", "")
-            lista.Append(formato)
+            self.formato["Nombre"] = aux[0]
+            self.formato["Descripcion"] = aux[1]
+            self.formato["Precio"] = float(aux[2])
+            self.formato["Status"] = aux[3]
+            self.formato["Cantidad"] = int(aux[4])
+            self.formato["Opciones"]["Tamaños"] = longitudes
+            self.formato["Opciones"]["Colores"] = colores
+            self.formato["Fecha Creacion"] = aux[6]
+            self.formato["Fecha Modificacion"] = aux[7].replace("\n", "")
+            self.Append(self.formato)
         print("\n+-----------------+ Datos almacenados exitosamente +-----------------+\n")
-        return lista
 
 
 
@@ -102,7 +102,10 @@ class ListaEnlazada:
 class main:
     def __init__(self) -> None:
         # Cargar datos del CSV de manera automatica
-        self.Productos = ListaEnlazada().cargaDatos()
+        self.producto = ListaEnlazada()
+        self.producto.cargaDatos()
+        self.carrito = carrito.Carrito()
+        self.orden = orden.Orden()
         self.menu()
 
     def menu(self):  # Metodo para capturar la opcion deseada
@@ -123,15 +126,21 @@ class main:
             # Condicionales para filtrar las opciones
             if opcion == 1:
                 print("\n=> Carrito de compra...")
-                carrito.menu_carrito(self.Productos) # Menu del carrito de compra
+                carrito.menu_carrito(self.producto, self.carrito) # Menu del carrito de compra
 
             elif opcion == 2:
-                print("\n=>Generar orden de compra...")
-                orden.menu_ordenCompra(self.Productos) # Menu de la orden de compra
+                if not self.carrito.vacia():
+                    print("\n =>Generar orden de compra...")
 
+                    if not orden.menu_ordenCompra(controlador.Stock, self.orden): # Menu de la orden de compra
+                        print("=> No ha generado la orden de compra")
+                    else:
+                        self.carrito = carrito.Carrito()
+                else:
+                    print("\n =>La lista de productos está vacía...\n")
             elif opcion == 3:
                 print("\n=> Controlador del sistema...")
-                controlador.menu(self.Productos) # Menu del controlador
+                controlador.menu(self.producto) # Menu del controlador
             else:
                 print("\n=> Fin del programa...")
                 break

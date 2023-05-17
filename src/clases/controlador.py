@@ -64,6 +64,18 @@ class Disponible:
             node_before.next = node_to_remove.next
             self.size = self.size - 1
         return value
+    
+    def auxiliar(self):
+        current = self.first
+        total_general = 0
+        total = 0
+        aux =0
+        while current != None:
+            aux = current.value["Cantidad"]
+            total = aux * current.value["Precio"]
+            total_general += total
+            current = current.next 
+        return total_general;
 
 class CarritoCompras:
     def __init__(self):

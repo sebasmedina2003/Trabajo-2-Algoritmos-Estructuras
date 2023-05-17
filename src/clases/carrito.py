@@ -1,7 +1,6 @@
 from clases.controlador import mostrarProductos
 """ Carrito de compra """
-def menu_carrito(productos):
-        carrito = Carrito()
+def menu_carrito(productos, carrito):
         while True:
             print("\n+--------- CARRITO DE COMPRA ----------+")
             print("| 1. Agregar productos                  |")
@@ -78,6 +77,8 @@ class Pila:
         if nodo is not None:
             print()
             self.aux(nodo.next)
+
+    
 
 """ Clase carrito """
 class Carrito(Pila):
