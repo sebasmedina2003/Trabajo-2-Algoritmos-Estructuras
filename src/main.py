@@ -63,23 +63,25 @@ class ListaEnlazada:
                 "Precio": 0,
                 "Status": "",
                 "Cantidad": 0,
-                "Opciones": "",
+                "Opciones": {
+                    "Tamaños":[],
+                    "Colores":[]
+                },
                 "Fecha Creacion": "",
                 "Fecha Modificacion": ""
             }
             aux = lineas.split(",")
-            listaAux = aux[5].split("/")
-            listaOpciones = listaAux[0]
-            textoValores = listaAux[1]
-            listaValores = textoValores.split("-")
-            diccionario = {listaOpciones: listaValores}
+            opciones = aux[5].split("/")
+            longitudes = opciones[0].split("-")
+            colores = opciones[1].split("-")
             print("-> Agregando " + aux[0]+"...")
             formato["Nombre"] = aux[0]
             formato["Descripcion"] = aux[1]
             formato["Precio"] = float(aux[2])
             formato["Status"] = aux[3]
             formato["Cantidad"] = int(aux[4])
-            formato["Opciones"] = diccionario
+            formato["Opciones"]["Tamaños"] = longitudes
+            formato["Opciones"]["Colores"] = colores
             formato["Fecha Creacion"] = aux[6]
             formato["Fecha Modificacion"] = aux[7].replace("\n", "")
             lista.Append(formato)
@@ -132,3 +134,4 @@ class main:
 
 if __name__ == "__main__":
     main()
+    
