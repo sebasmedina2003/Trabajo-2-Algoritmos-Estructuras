@@ -66,7 +66,6 @@ class Disponible:
         return value
 
 class CarritoCompras:
-
     def __init__(self):
         self.first = None
         self.size = 0
