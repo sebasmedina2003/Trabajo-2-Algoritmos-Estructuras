@@ -59,7 +59,7 @@ class ListaEnlazada:
     # Cargar datos del CSV
     def cargaDatos(self):
         lista = ListaEnlazada()
-        archivo = open("src/archivos/datos.csv", "r")
+        archivo = open("src/archivos/datos.csv", "r", "utf-8")
         print("\n>>> Cargando productos al sistema...")
         for lineas in archivo:
             sleep(0.2)
