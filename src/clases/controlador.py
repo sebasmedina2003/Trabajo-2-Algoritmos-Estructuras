@@ -135,20 +135,6 @@ class CarritoCompras:
                 return Carrito
             i += 1
             Current = Current.next
-            
-# class Ordenes:
-
-#     def __init__(self):
-#         self.first = None
-#         self.size = 0
-
-#     def ordenes(self):
-#         Current = self.first
-#         i = 0
-#         while Current != None:
-#             print(str(i) + " " + str(Current) + "\n")
-#             i += 1
-#             Current = Current.next
 
 def mostrarProductos(self):
     print("+" + "="*114 + "+")

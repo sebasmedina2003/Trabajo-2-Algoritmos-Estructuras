@@ -1,7 +1,10 @@
 # Importar clases
 import clases.controlador as controlador
+import clases.carrito as carrito
+import clases.orden as orden
 from time import sleep
 
+""" Producto -> Nodos"""
 class Producto:
     def __init__(self, value):
         self.value = value
@@ -9,6 +12,8 @@ class Producto:
 
     def __str__(self):
         return str(self.value)
+    
+""" Lista enlazada """
 class ListaEnlazada:
     def __init__(self):
         self.first = None
@@ -50,11 +55,12 @@ class ListaEnlazada:
             Current = Current.next
         string += "]"
         return string
-
+    
+    # Cargar datos del CSV
     def cargaDatos(self):
         lista = ListaEnlazada()
         archivo = open("src/archivos/datos.csv", "r")
-        print("\n>>> Cargando datos de prueba...")
+        print("\n>>> Cargando productos al sistema...")
         for lineas in archivo:
             sleep(0.2)
             formato = {
@@ -87,48 +93,47 @@ class ListaEnlazada:
             lista.Append(formato)
         print("\n+-----------------+ Datos almacenados exitosamente +-----------------+\n")
         return lista
+
+
+
+
+
+""" Clase del menu principal """
 class main:
     def __init__(self) -> None:
-
+        # Cargar datos del CSV de manera automatica
         self.Productos = ListaEnlazada().cargaDatos()
         self.menu()
 
-
     def menu(self):  # Metodo para capturar la opcion deseada
         while True:
-            print("\n+----------+ Menu principal +----------+")
-            print("| 1. Agregar productos                 |")
-            print("| 2. Acceder a opciones de productos   |")
-            print("| 3. Acceder al carrito de compra      |")
-            print("| 4. Acceder al orden                  |")
-            print("| 5. Acceder al controlador            |")
-            print("| 6. Salir del programa                |")
+            print("\n+----------+ MENU PRINCIPAL +----------+")
+            print("| 1. Carrito de compra                 |")
+            print("| 2. Orden de compra                   |")
+            print("| 3. Controlador del sistema           |")
+            print("| 4. Salir                             |")
             print("+--------------------------------------+")
             # Validacion de la captura de la opcion
-            opcion = 9
-            while opcion not in range(1, 7):
+            opcion = 0
+            while opcion not in range(1, 5):
                 try:
                     opcion = int(input(">>> Ingrese la opcion deseada: "))
                 except:
                     print("-> Ingrese datos validos...")
             # Condicionales para filtrar las opciones
             if opcion == 1:
-                print("-> Puede agregar productos al sistema...")
+                print("\n=> Carrito de compra...")
+                carrito.menu_carrito(self.Productos) # Menu del carrito de compra
 
             elif opcion == 2:
-                print("-> Puede ver las opciones de los productos del sistema...")
+                print("\n=>Generar orden de compra...")
+                orden.menu_ordenCompra(self.Productos) # Menu de la orden de compra
 
             elif opcion == 3:
-                print("-> Ha ingresado al carrito de compra...")
-
-            elif opcion == 4:
-                print("-> Ha ingresado al orden de compra...")
-
-            elif opcion == 5:
-                print("-> Ha ingresado al controlador del sistema...")
-                controlador.menu(self.Productos)
+                print("\n=> Controlador del sistema...")
+                controlador.menu(self.Productos) # Menu del controlador
             else:
-                print("-> Ha salido del programa...")
+                print("\n=> Fin del programa...")
                 break
 
 
