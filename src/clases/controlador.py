@@ -1,14 +1,7 @@
-import clases.agregar as agregar
-import time
+from time import sleep
 
 
-def inicializar(lista):
-    global MyList
-    MyList = lista
-    menu()
-
-
-def menu() -> None:
+def menu(lista) -> None:
     while True: 
         print("\n+===========================================+\n" + "|" + "MENÚ".center(43," ") + "|\n" + "|===========================================|\n|                                           |\n| [1] Catálogo                              |\n| [2] Añadir al carrito                     |\n| [3] Comprar artíuclos                     |\n| [4] Ordenes de compra                     |\n| [5] Carrito de compra                     |\n| [6] Volver                                |\n|                                           |\n+===========================================+\n")
         while True:
@@ -21,7 +14,7 @@ def menu() -> None:
             except ValueError:
                 print(">>> No se ha ingresado un numero, seleccione una opcion valida\n")
         if opcion == 1:
-            MyList.catalogo()
+            lista.catalogo()
         elif opcion == 2:
             Carrito.añadir_carrito()
         elif opcion == 3:
@@ -32,38 +25,12 @@ def menu() -> None:
             mostrarProductos(Carrito)
         elif opcion == 6:
             break;
+
 class Producto:
     def __init__(self, value):
         self.value = value
         self.next = None
-class ListaEnlazada(list):
 
-    def __init__(self):
-        self.first = None
-        self.size = 0
-        self.band = False
-        
-    def Append(self, value):
-        nodo = Producto(value)
-        if self.size == 0:
-            self.first = nodo
-        else:
-            current = self.first
-            while current.next != None:
-                current = current.next
-            current.next = nodo
-        self.size += 1
-
-    def catalogo(self):
-        current = self.first
-        if self.band == False:
-            while current != None:
-                if current.value[3] == "Activo" and current.value[4] > 0:
-                    Stock2.Append(current.value)
-                    Stock.Append(current.value)
-                    self.band = True
-                current = current.next
-        mostrarProductos(Stock2)
 class Disponible:
     def __init__(self):
         self.first = None
@@ -80,97 +47,90 @@ class Disponible:
             Current.next = Nodo
         self.size += 1
 
-    def Remove(self, value):
+    def Remove(self, i = None):
+        if i == None:
+            i = self.size - 1
+        elif i==0:
+            value = self.first.value
+            self.first = self.first.next
+        else:
+            nodo_anterior = self.first
+            nodo_actual = nodo_anterior.next
+            for k in range(1, i):
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_anterior.next
+            value = nodo_actual.value
+            nodo_anterior.next = nodo_actual.next
+            self.size = self.size - 1
+        return value
+
+class CarritoCompras:
+
+    def __init__(self):
+        self.first = None
+        self.size = 0
+    
+    def Append(self, value):
+        MyNode = Producto(value)
         if self.size == 0:
-            return False
+            self.first = MyNode
         else:
             Current = self.first
+            while Current.next != None:
+                Current = Current.next
+            Current.next = MyNode
+        self.size += 1
+        return MyNode
+
+    def Remove(self, i = None):
+        if i == 0:
+            self.first = self.first.next
+            value = self.first.value
+        else:
+            nodo_anterior = self.first
+            nodo_actual = nodo_anterior.next
+            for k in range(1, i):
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_anterior.next
+            value = nodo_actual.value
+            nodo_anterior.next = nodo_actual.next
+            self.size = self.size - 1
+        return value
+
+    def añadir_carrito(self):
+        mostrarProductos(Stock)
+        opcion = -1
+        while opcion not in range(0, Stock.size): 
             try:
-                while Current.next.value != value:
-                    if Current.next == None:
-                        return False
-                    else:
-                        Current = Current.next
-                DeletedNode = Current.next
-                Current.next = DeletedNode.next
-            except AttributeError:
-                return False
-        self.size -= 1
-        return DeletedNode
-# class CarritoCompras:
+                opcion = int(input(">>> Seleccione el producto que desea agregar al carrito: "))
+            except:
+                print(">>> No se ha ingresado un numero, seleccione una opcion valida\n")
+        Current = Stock.first
+        i = 0
+        while Current != None:
+            if i == opcion:
+                Carrito.Append(Current.value)
+                Stock.Remove(i)
+                return Carrito
+            i += 1
+            Current = Current.next
 
-#     def __init__(self):
-#         self.first = None
-#         self.size = 0
-    
-#     def Append(self, value):
-#         MyNode = Producto(value)
-#         if self.size == 0:
-#             self.first = MyNode
-#         else:
-#             Current = self.first
-#             while Current.next != None:
-#                 Current = Current.next
-#             Current.next = MyNode
-#         self.size += 1
-#         return MyNode
-
-#     def Remove(self, value):
-#         if self.size == 0:
-#             return False
-#         else:
-#             Current = self.first
-#             try:
-#                 while Current.next.value != value:
-#                     if Current.next == None:
-#                         return False
-#                     else:
-#                         Current = Current.next
-#                 DeletedNode = Current.next
-#                 Current.next = DeletedNode.next
-#             except AttributeError:
-#                 return False
-#         self.size -= 1
-#         return DeletedNode
-
-#     def añadir_carrito(self):
-#         Actual = Carrito.first
-#         while Actual != None:
-#             Stock.Remove(Actual.value)
-#             Actual = Actual.next
-#         mostrarProductos(Stock)
-#         opcion = -1
-#         while opcion not in range(0, Stock.size): 
-#             try:
-#                 opcion = int(input(">>> Seleccione el producto que desea agregar al carrito: "))
-#             except:
-#                 print(">>> No se ha ingresado un numero, seleccione una opcion valida\n")
-#         Current = Stock.first
-#         i = 0
-#         while Current != None:
-#             if i == opcion:
-#                 Carrito.Append(Current.value)
-#                 return Carrito
-#             i += 1
-#             Current = Current.next
-
-#     def comprar_carrito(self):
-        
-#         mostrarProductos(Carrito)
-#         opcion = -1
-#         while opcion not in range(0, self.size): 
-#             try:
-#                 opcion = int(input(">>> Seleccione el producto que desea comprar: "))
-#             except:
-#                 print(">>> No se ha ingresado un numero, seleccione una opcion valida\n")
-#         Current = self.first
-#         i = 0
-#         while Current != None:
-#             if i == opcion:
-#                 Carrito.Remove(Current.value)
-#                 return Carrito
-#             i += 1
-#             Current = Current.next
+    def comprar_carrito(self):
+        mostrarProductos(Carrito)
+        opcion = -1
+        while opcion not in range(0, Carrito.size): 
+            try:
+                opcion = int(input(">>> Seleccione el producto que desea comprar: "))
+            except:
+                print(">>> No se ha ingresado un numero, seleccione una opcion valida\n")
+        Current = self.first
+        i = 0
+        while Current != None:
+            if i == opcion:
+                Carrito.Remove(i)
+                return Carrito
+            i += 1
+            Current = Current.next
             
 # class Ordenes:
 
@@ -197,14 +157,13 @@ def mostrarProductos(self):
             time.sleep(0.5)
             print("| {:0} |{:<110}|".format(i, "Comprar Todo"))
         else:
-            time.sleep(0.5)
-            print("| {:0} |{:<21}|{:<23}|${:<7}|{:<20}|{:<12}|{:<21}|".format(i, Current.value[0], Current.value[1], Current.value[2], Current.value[3], Current.value[4], Current.value[5]))
+            sleep(0.5)
+            print("| {:0} |{:<18}|{:<25}|${:5}|{:<9}|{:<5}|{:25}|{:<10}|{:<10}|".format(i, str(Current.value["Nombre"]), str(Current.value["Descripcion"]), float(Current.value["Precio"]), str(Current.value["Status"]), str (Current.value["Cantidad"]), str(Current.value["Opciones"]), str(Current.value["Fecha Creacion"]), str(Current.value["Fecha Modificacion"])))
         print("+" + "="*114 + "+")
         i+=1
         Current = Current.next
     print("\n")
 
+Stock = Disponible()
+Carrito = CarritoCompras()
 
-Carrito = ListaEnlazada()
-Stock2 = ListaEnlazada()
-Stock = ListaEnlazada()

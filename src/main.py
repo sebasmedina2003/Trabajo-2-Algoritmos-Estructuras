@@ -1,5 +1,4 @@
 # Importar clases
-from clases import agregar as agregar
 import clases.controlador as controlador
 from time import sleep
 
@@ -14,6 +13,7 @@ class ListaEnlazada:
     def __init__(self):
         self.first = None
         self.size = 0
+        self.band = False
 
     def __len__(self):
         return self._size
@@ -31,10 +31,13 @@ class ListaEnlazada:
 
     def catalogo(self):
         current = self.first
-        while current != None:
-            if current.value["Status"] == "Activo" and current.value["Cantidad"] > 0:
-                controlador.mostrarProductos(current.value)
-            current = current.next
+        if self.band == False:
+            while current != None:
+                if current.value["Status"] == "Activo" and current.value["Cantidad"] > 0:
+                    controlador.Stock.Append(current.value)
+                    self.band = True    
+                current = current.next
+        controlador.mostrarProductos(controlador.Stock)
 
     def __str__(self):
         string = "["
@@ -84,9 +87,8 @@ class ListaEnlazada:
         return lista
 class main:
     def __init__(self) -> None:
-        self.Productos = ListaEnlazada()
-        self.Productos = self.Productos.cargaDatos()
-        print(self.Productos)
+
+        self.Productos = ListaEnlazada().cargaDatos()
         self.menu()
 
 
@@ -122,7 +124,7 @@ class main:
 
             elif opcion == 5:
                 print("-> Ha ingresado al controlador del sistema...")
-                controlador.inicializar(self.Productos)
+                controlador.menu(self.Productos)
             else:
                 print("-> Ha salido del programa...")
                 break
