@@ -1,7 +1,7 @@
 from clases.controlador import mostrarProductos
 """ Carrito de compra """
 def menu_carrito(productos):
-        carrito = Carrito
+        carrito = Carrito()
         while True:
             print("\n+--------- CARRITO DE COMPRA ----------+")
             print("| 1. Agregar productos                  |")
@@ -21,17 +21,18 @@ def menu_carrito(productos):
                 while True:
                     try:
                         opcion = input("=> Ingrese el indice del producto que desea agregar: ")
+                        break
                     except:
                         print("=> Ingrese un indice valido...")
                     # Recorrer la lista enlazada en busca del producto
                     contador = 0
                     
-                Carrito.agregar_producto(carrito, opcion) # Agregar productos a la pila
+                carrito.agregar_producto(opcion) # Agregar productos a la pila
             elif opcion == 2:
-                mostrarProductos(Pila)
-                Carrito.eliminar_productos(carrito) # Eliminar productos de la pila
+                mostrarProductos(productos)
+                carrito.eliminar_productos() # Eliminar productos de la pila
             elif opcion == 3:
-                Carrito.total(carrito) # Calcular el total de los productos almacenados en la pila
+                carrito.total() # Calcular el total de los productos almacenados en la pila
             else:
                 break
 
@@ -56,15 +57,15 @@ class Pila:
     
     def agregar(self, valor):
         new = Producto(valor) # Se añade un nodo con el valor del producto
-        new.siguiente = self.tope
+        new.next = self.tope
         self.tope = new
     
     def eliminar(self):
         if self.esta_vacia():
             return None
         else:
-            valor_eliminado = self.tope.valor
-            self.tope = self.tope.siguiente
+            valor_eliminado = self.tope.value
+            self.tope = self.tope.next
             return valor_eliminado
     
     def recorrerPila(self):
@@ -76,19 +77,19 @@ class Pila:
     def aux(self, nodo):
         if nodo is not None:
             print()
-            self.aux(nodo.siguiente)
+            self.aux(nodo.next)
 
 """ Clase carrito """
 class Carrito(Pila):
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
     def agregar_producto(self, producto):
-        Pila.agregar(producto)
+        self.agregar(producto)
         pass
 
     def eliminar_productos(self):
-        if Pila.vacia():
+        if self.vacia():
             print("=> No hay productos en el carrito a eliminar...")
         else:
             # Recorrer la pila hasta encontrar el nodo que se desea eliminar
@@ -96,7 +97,7 @@ class Carrito(Pila):
             pass
 
     def total(self):
-        if Pila.vacia():
+        if self.vacia():
             print("=> No hay productos en el carrito a eliminar...")
         else:
             pass
